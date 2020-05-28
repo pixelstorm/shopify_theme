@@ -9,7 +9,7 @@
 
 			{% assign collection = collections[section.settings.collection]%}
 			<div class="row">
-				{% for product in collection.products limit: section.setting.product.limit %}
+				{% for product in collection.products limit: section.settings.product.limit %}
 				<div class="col-md-4">
 					<div class="product-item">
 						<div class="product-thumb">
