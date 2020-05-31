@@ -30,15 +30,19 @@
             <p class="product-description">
 	    {{product.description}}
             </p>
+	    <form method="post" action="/cart/add">
+	    {%unless product.has_only_default_variant %}
+		    {%for product_option in product.options_with_values %}
             <div class="product-category">
-              <span>Size:</span>
-              <select class="form-control">
-                <option>S</option>
-                <option>M</option>
-                <option>L</option>
-                <option>XL</option>
+		    <span>{{product_option.name}}</span>
+		    <select class="form-control" data-index="option{{forloop.index}}">
+		{% for value in product_option.values %}
+			<option>{{value | escape }} {%if product_option.selected.value == value %} selected = "selected" {%endif%}>{{value}}</option>
+		{%endfor%}
               </select>
             </div>
+	    {%endfor%}
+	    {%endunless%}
             <div class="product-category">
               <span>Color:</span>
               <select class="form-control">
@@ -55,11 +59,13 @@
             <div class="product-category">
               <span>Categories:</span>
               <ul>
-                <li><a href="#">Products</a></li>
-                <li><a href="#">Soap</a></li>
+		      {% for collection in product.collections %}
+			      <li><a href="{{collection.url}}">{{ collection.title }}</a></li>
+		      {% endfor %}
               </ul>
             </div>
             <a href="cart.html" class="btn btn-main">Add To Cart</a>
+	    </form>
           </div>
         </div>
       </div>
